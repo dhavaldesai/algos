@@ -47,6 +47,7 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
 			newNode.prev =  null;
 			FIRST = newNode;
 		}
+		N++;
 	}
 
 	public void insertLast(Item item) {
@@ -61,6 +62,7 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
 			LAST.next = newNode;
 			LAST = newNode;
 		}
+		N++;
 	}
 
 	public void insertAfter(Item item, Node node) {
@@ -76,6 +78,7 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
 			newNode.next = node.next;
 			node.next = newNode;
 		}
+		N++;
 	}
 
 	public void insertBefore(Item item, Node node) {
@@ -91,6 +94,7 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
 			newNode.next = node.next;
 			node.next = newNode;
 		}
+		N++;
 	}
 
 	public Item remove(Node node) {
@@ -106,13 +110,18 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
 			node.prev.next = node.next;
 			node.next.prev = node.prev;
 			node.next = node.prev = null;
-		}		
+		}
 		Item item = (Item)node.item;
+		N--;
 		return item;
 	}
 
 	public boolean isEmpty() {
 		return FIRST == null;
+	}
+
+	public int size(){
+		return N;
 	}
 
 	public Iterator<Item> iterator() {
@@ -125,17 +134,18 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
 		public DoublyLinkedListIterator(){
 			currentNode = FIRST;
 		}
-		public boolean hasNext() {
-			return currentNode.next == null;
+		public boolean hasNext() {//System.out.println("dll hasnext");
+			//if(currentNode == null) { /*System.out.println("dll hasnext null");*/return false;}
+			return currentNode != null;
 		}
-		public Item next(){
-			if(!hasNext()) {
-				currentNode = currentNode.next;
+		public Item next(){ //System.out.println("dll next");
+			if(hasNext()) {
 				Item item = (Item) currentNode.item;
+				currentNode = currentNode.next;
 				return item;
 			} else {
 				throw new NoSuchElementException();
-			}			
+			}
 		}
 		public boolean hasPrevious() {
 			return currentNode.prev == null;
@@ -147,7 +157,7 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
 				return item;
 			} else {
 				throw new NoSuchElementException();
-			}			
+			}
 		}
 		public void remove(){
 			throw new UnsupportedOperationException();
@@ -158,11 +168,11 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
 		DoublyLinkedList<Integer> dll = new DoublyLinkedList<Integer>();
 		for (int i=0; i< 20; i++) {
 			System.out.println(i);
-			dll.insertFirst(i);
+			dll.insertLast(i);
 		}
-		
+
 		Iterator it = dll.iterator();
-		for (int i = 0; i < 30; i++ ) {
+		for (int i = 0; it.hasNext(); i++ ) {
 			try {
 				System.out.println(it.next());
 			} catch ( Exception e ) {

@@ -10,6 +10,7 @@
  *	Iterator
  */
 import java.util.Iterator;
+import java.util.Arrays;
 
 public class ArrayStack<Item> implements Iterable<Item> {
 
@@ -39,7 +40,11 @@ public class ArrayStack<Item> implements Iterable<Item> {
 		private int i = stackSize;
 
 		public boolean hasNext() { return i >= 0; }
-		public Item next() { if (!hasNext()) throw new UnsupportedOperationException();return stackArray[i--]; }
+		public Item next() {System.out.println("next: "+i);
+			if (!hasNext()) throw new UnsupportedOperationException();
+			i--;
+			Item item = (Item) stackArray[i];
+			return item; }
 		public void remove() { throw new UnsupportedOperationException(); }
 	}
 
